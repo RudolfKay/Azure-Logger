@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureLogging", "AzureLoggin
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureLogging.Tests", "AzureLogging.Tests\AzureLogging.Tests.csproj", "{6A2D43A3-E1FA-4060-8202-67B895FA68AB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctions", "AzureFunctions\AzureFunctions.csproj", "{42A5BAD0-B017-4CBF-B2B5-5C32381FBA23}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{6A2D43A3-E1FA-4060-8202-67B895FA68AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2D43A3-E1FA-4060-8202-67B895FA68AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A2D43A3-E1FA-4060-8202-67B895FA68AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42A5BAD0-B017-4CBF-B2B5-5C32381FBA23}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42A5BAD0-B017-4CBF-B2B5-5C32381FBA23}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42A5BAD0-B017-4CBF-B2B5-5C32381FBA23}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42A5BAD0-B017-4CBF-B2B5-5C32381FBA23}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
