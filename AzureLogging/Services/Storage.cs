@@ -16,11 +16,11 @@ namespace AzureLogging.Services
 
             try
             {
-                _blobContainerClient = client.CreateBlobContainer("AzureLoggingBlob");
+                _blobContainerClient = client.CreateBlobContainer("azure-logging-blob");
             }
             catch
             {
-                _blobContainerClient = client.GetBlobContainerClient("AzureLoggingBlob");
+                _blobContainerClient = client.GetBlobContainerClient("azure-logging-blob");
             }
         }
 
@@ -29,7 +29,7 @@ namespace AzureLogging.Services
             using var stream = new MemoryStream();
             using var streamWriter = new StreamWriter(stream);
 
-            var fileName = $"ApiResponse-{DateTime.Now}.json";
+            var fileName = $"ApiResponse{DateTime.Now:HHmmss}.json";
             var content = JsonSerializer.Serialize(response);
 
             streamWriter.Write(content);

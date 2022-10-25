@@ -3,14 +3,9 @@ using System;
 
 namespace AzureLogging.Models
 {
-    public class ApiResponse
-    {
-        
-    }
-
     // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
 
-    public class Entry
+    public class ApiResponse
     {
         public string API { get; set; }
         public string Description { get; set; }
@@ -19,11 +14,5 @@ namespace AzureLogging.Models
         public string Cors { get; set; }
         public string Link { get; set; }
         public string Category { get; set; }
-    }
-
-    public class Root
-    {
-        public int count { get; set; }
-        public List<Entry> entries { get; set; }
     }
 }
