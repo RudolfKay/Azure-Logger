@@ -1,4 +1,5 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
+using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using AzureLogging.Models;
 using System.Text.Json;
@@ -45,6 +46,15 @@ namespace AzureLogging.Services
             stream.Seek(0, SeekOrigin.Begin);
 
             _blobContainerClient.UploadBlob(fileName, stream);
+        }
+
+        public async Task LogRequest(Root response, string id)
+        {
+            var serializedResponse = JsonSerializer.Serialize(response);
+            var entry = new ApiResponseEntity(id, serializedResponse, DateTime.Now);
+
+            var operation = TableOperation.Insert(entry);
+            await _cloudTable.ExecuteAsync(operation);
         }
     }
 }
