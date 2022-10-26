@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureLogging", "AzureLogging\AzureLogging.csproj", "{84E5421A-3296-4F37-94B9-61DE1E66E1A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureLogging", "AzureLogging\AzureLogging.csproj", "{84E5421A-3296-4F37-94B9-61DE1E66E1A5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureLogging.Tests", "AzureLogging.Tests\AzureLogging.Tests.csproj", "{6A2D43A3-E1FA-4060-8202-67B895FA68AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureLogging.Tests", "AzureLogging.Tests\AzureLogging.Tests.csproj", "{6A2D43A3-E1FA-4060-8202-67B895FA68AB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AzureFunctions", "AzureFunctions\AzureFunctions.csproj", "{42A5BAD0-B017-4CBF-B2B5-5C32381FBA23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AzureFunctions", "AzureFunctions\AzureFunctions.csproj", "{42A5BAD0-B017-4CBF-B2B5-5C32381FBA23}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

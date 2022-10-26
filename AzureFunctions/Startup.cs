@@ -15,6 +15,7 @@ namespace AzureFunctions
             builder.Services
                 .AddRefitClient<IPublicApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.publicapis.org"));
+            builder.Services.AddScoped<Storage>();
         }
     }
 }

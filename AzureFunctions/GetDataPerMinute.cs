@@ -10,7 +10,7 @@ namespace AzureFunctions
     public class GetDataPerMinute
     {
         private readonly Storage _blobStorage;
-        private IPublicApi _publicApi;
+        private readonly IPublicApi _publicApi;
 
         public GetDataPerMinute(IPublicApi api)
         {
