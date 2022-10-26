@@ -29,16 +29,18 @@ namespace AzureLogging.Services
             var account = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
             var tableClient = account.CreateCloudTableClient(new TableClientConfiguration());
             
-            _cloudTable = tableClient.GetTableReference("logging-data");
+            _cloudTable = tableClient.GetTableReference("datalog");
             _cloudTable.CreateIfNotExists();
         }
 
-        public void SaveBlob(Root response)
+        public string SaveBlob(Root response)
         {
             using var stream = new MemoryStream();
             using var streamWriter = new StreamWriter(stream);
 
-            var fileName = $"ApiResponse{DateTime.Now:HHmmss}.json";
+            var blobName = DateTime.Now.ToString("yyyyMMdd-HHmmss");
+            var fileName = $"ApiResponse{blobName}.json";
+
             var content = JsonSerializer.Serialize(response);
 
             streamWriter.Write(content);
@@ -46,6 +48,8 @@ namespace AzureLogging.Services
             stream.Seek(0, SeekOrigin.Begin);
 
             _blobContainerClient.UploadBlob(fileName, stream);
+
+            return blobName;
         }
 
         public async Task LogRequest(Root response, string id)

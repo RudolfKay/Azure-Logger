@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Logging;
-using Microsoft.Azure.WebJobs.Host;
 using Microsoft.Azure.WebJobs;
 using System.Threading.Tasks;
 using AzureLogging.Services;
@@ -27,7 +26,8 @@ namespace AzureFunctions
 
             log.LogInformation($"{DateTime.Now}\nAPI: {output.API}\nDescription: {output.Description}");
 
-            _blobStorage.SaveBlob(result); // Temporary. Need a full answer, such as result
+            var blobName = _blobStorage.SaveBlob(result);
+            await _blobStorage.LogRequest(result, blobName);
         }
     }
 }
