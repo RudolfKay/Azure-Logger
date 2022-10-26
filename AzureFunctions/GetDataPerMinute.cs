@@ -12,10 +12,10 @@ namespace AzureFunctions
         private readonly Storage _blobStorage;
         private readonly IPublicApi _publicApi;
 
-        public GetDataPerMinute(IPublicApi api)
+        public GetDataPerMinute(IPublicApi api, Storage storage)
         {
             _publicApi = api;
-            _blobStorage = new Storage();
+            _blobStorage = storage;
         }
 
         [FunctionName("GetData")]

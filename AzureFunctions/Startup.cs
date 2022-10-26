@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AzureLogging.Services;
 using System;
 using Refit;
+using AzureLogging.Interfaces;
 
 [assembly: FunctionsStartup(typeof(AzureFunctions.Startup))]
 
@@ -16,6 +17,7 @@ namespace AzureFunctions
                 .AddRefitClient<IPublicApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.publicapis.org"));
             builder.Services.AddScoped<Storage>();
+            builder.Services.AddSingleton<IConfig, Config>();
         }
     }
 }

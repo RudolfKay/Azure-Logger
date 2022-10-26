@@ -1,12 +1,13 @@
 ﻿using Microsoft.Azure.Cosmos.Table;
 using System.Collections.Generic;
+using AzureLogging.Interfaces;
 using System.Threading.Tasks;
 using Azure.Storage.Blobs;
 using AzureLogging.Models;
 using System.Text.Json;
+using System.Linq;
 using System.IO;
 using System;
-using System.Linq;
 
 namespace AzureLogging.Services
 {
@@ -14,24 +15,27 @@ namespace AzureLogging.Services
     {
         private readonly BlobContainerClient _blobContainerClient;
         private readonly CloudTable _cloudTable;
+        private readonly IConfig _config;
 
-        public Storage()
+        public Storage(IConfig config)
         {
-            var client = new BlobServiceClient("UseDevelopmentStorage=true");
+            _config = config;
+
+            var client = new BlobServiceClient(_config.ConnectionString);
 
             try
             {
-                _blobContainerClient = client.CreateBlobContainer("azure-logging-blob");
+                _blobContainerClient = client.CreateBlobContainer(_config.BlobContainerName);
             }
             catch
             {
-                _blobContainerClient = client.GetBlobContainerClient("azure-logging-blob");
+                _blobContainerClient = client.GetBlobContainerClient(_config.BlobContainerName);
             }
 
-            var account = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
+            var account = CloudStorageAccount.Parse(_config.ConnectionString);
             var tableClient = account.CreateCloudTableClient(new TableClientConfiguration());
             
-            _cloudTable = tableClient.GetTableReference("datalog");
+            _cloudTable = tableClient.GetTableReference(_config.AzureTableName);
             _cloudTable.CreateIfNotExists();
         }
 
@@ -41,7 +45,7 @@ namespace AzureLogging.Services
             using var streamWriter = new StreamWriter(stream);
 
             var blobName = DateTime.Now.ToString("yyyyMMdd-HHmmss");
-            var fileName = $"ApiResponse-{blobName}.json";
+            var fileName = $"{_config.FilePrefix}{blobName}.json";
 
             var content = JsonSerializer.Serialize(response);
 
@@ -73,7 +77,7 @@ namespace AzureLogging.Services
         
         public async Task<string> GetBlob(string id)
         {
-            var fileName = $"ApiResponse-{id}.json";
+            var fileName = $"{_config.FilePrefix}{id}.json";
             var blobClient = _blobContainerClient.GetBlobClient(fileName);
 
             using var stream = new MemoryStream();
