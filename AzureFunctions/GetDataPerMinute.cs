@@ -27,7 +27,7 @@ namespace AzureFunctions
 
             log.LogInformation($"{DateTime.Now}\nAPI: {output.API}\nDescription: {output.Description}");
 
-            _blobStorage.SaveBlob(output); // Temporary. Need a full answer, such as result
+            _blobStorage.SaveBlob(result); // Temporary. Need a full answer, such as result
         }
     }
 }

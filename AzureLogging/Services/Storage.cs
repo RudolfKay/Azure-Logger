@@ -1,4 +1,5 @@
-﻿using Azure.Storage.Blobs;
+﻿using Microsoft.Azure.Cosmos.Table;
+using Azure.Storage.Blobs;
 using AzureLogging.Models;
 using System.Text.Json;
 using System.IO;
@@ -9,6 +10,7 @@ namespace AzureLogging.Services
     public class Storage
     {
         private readonly BlobContainerClient _blobContainerClient;
+        private readonly CloudTable _cloudTable;
 
         public Storage()
         {
@@ -22,9 +24,15 @@ namespace AzureLogging.Services
             {
                 _blobContainerClient = client.GetBlobContainerClient("azure-logging-blob");
             }
+
+            var account = CloudStorageAccount.Parse("UseDevelopmentStorage=true");
+            var tableClient = account.CreateCloudTableClient(new TableClientConfiguration());
+            
+            _cloudTable = tableClient.GetTableReference("logging-data");
+            _cloudTable.CreateIfNotExists();
         }
 
-        public void SaveBlob(ApiResponse response)
+        public void SaveBlob(Root response)
         {
             using var stream = new MemoryStream();
             using var streamWriter = new StreamWriter(stream);
