@@ -7,12 +7,12 @@ using System;
 
 namespace AzureFunctions
 {
-    public class GetDataPerMinute
+    public class PullProvider
     {
         private readonly Storage _blobStorage;
         private readonly IPublicApi _publicApi;
 
-        public GetDataPerMinute(IPublicApi api, Storage storage)
+        public PullProvider(IPublicApi api, Storage storage)
         {
             _publicApi = api;
             _blobStorage = storage;
