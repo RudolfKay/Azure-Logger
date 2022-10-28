@@ -1,20 +1,20 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using AzureLogging.Interfaces;
 using Microsoft.Azure.WebJobs;
 using System.Threading.Tasks;
-using AzureLogging.Services;
 using System;
 
 namespace AzureFunctions
 {
     public class LogProvider
     {
-        private readonly Storage _storage;
+        private readonly ILogService _logService;
 
-        public LogProvider(Storage storage)
+        public LogProvider(ILogService logService)
         {
-            _storage = storage;
+            _logService = logService;
         }
 
         [FunctionName("LogProvider")]
@@ -30,7 +30,7 @@ namespace AzureFunctions
             var fromDateTime = DateTime.Parse(from);
             var toDateTime = DateTime.Parse(to);
 
-            var items = _storage.GetLogs(fromDateTime, toDateTime);
+            var items = _logService.GetLogs(fromDateTime, toDateTime);
 
             return await Task.FromResult<IActionResult>(new OkObjectResult(items));
         }

@@ -4,16 +4,17 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using System.Threading.Tasks;
 using AzureLogging.Services;
+using AzureLogging.Interfaces;
 
 namespace AzureFunctions
 {
     public class BlobProvider
     {
-        private readonly Storage _storage;
+        private readonly IBlobService _blobService;
 
-        public BlobProvider(Storage storage)
+        public BlobProvider(IBlobService blobService)
         {
-            _storage = storage;
+            _blobService = blobService;
         }
 
         [FunctionName("BlobProvider")]
@@ -24,7 +25,7 @@ namespace AzureFunctions
             log.LogInformation("GetBlob HTTP trigger function processed a request.");
 
             string id = req.Query["id"];
-            var result = await _storage.GetBlob(id);
+            var result = await _blobService.GetBlob(id);
 
             return await Task.FromResult<IActionResult>(new OkObjectResult(result));
         }

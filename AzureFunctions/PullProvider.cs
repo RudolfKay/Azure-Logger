@@ -4,18 +4,21 @@ using System.Threading.Tasks;
 using AzureLogging.Services;
 using System.Linq;
 using System;
+using AzureLogging.Interfaces;
 
 namespace AzureFunctions
 {
     public class PullProvider
     {
-        private readonly Storage _blobStorage;
+        private readonly IBlobService _blobService;
+        private readonly ILogService _logService;
         private readonly IPublicApi _publicApi;
 
-        public PullProvider(IPublicApi api, Storage storage)
+        public PullProvider(IPublicApi api, ILogService logService, IBlobService blobService)
         {
             _publicApi = api;
-            _blobStorage = storage;
+            _logService = logService;
+            _blobService = blobService;
         }
 
         [FunctionName("GetData")]
@@ -26,8 +29,8 @@ namespace AzureFunctions
 
             log.LogInformation($"{DateTime.Now}\nAPI: {output.API}\nDescription: {output.Description}");
 
-            var blobName = _blobStorage.SaveBlob(result);
-            await _blobStorage.LogRequest(result, blobName);
+            var blobName = _blobService.SaveBlob(result);
+            await _logService.LogRequest(result, blobName);
         }
     }
 }

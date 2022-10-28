@@ -17,7 +17,10 @@ namespace AzureFunctions
                 .AddRefitClient<IPublicApi>()
                 .ConfigureHttpClient(c => c.BaseAddress = new Uri("https://api.publicapis.org"));
             builder.Services.AddSingleton<IConfig, Config>();
-            builder.Services.AddScoped<Storage>();
+            builder.Services.AddScoped<ILogStorage, Storage>();
+            builder.Services.AddScoped<IBlobStorage, Storage>();
+            builder.Services.AddScoped<ILogService, LogService>();
+            builder.Services.AddScoped<IBlobService, BlobService>();
         }
     }
 }

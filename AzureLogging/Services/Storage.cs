@@ -11,7 +11,7 @@ using System;
 
 namespace AzureLogging.Services
 {
-    public class Storage
+    public class Storage : ILogStorage, IBlobStorage
     {
         private readonly BlobContainerClient _blobContainerClient;
         private readonly CloudTable _cloudTable;
@@ -57,6 +57,21 @@ namespace AzureLogging.Services
 
             return blobName;
         }
+        
+        public async Task<string> GetBlob(string id)
+        {
+            var fileName = $"{_config.FilePrefix}{id}.json";
+            var blobClient = _blobContainerClient.GetBlobClient(fileName);
+
+            using var stream = new MemoryStream();
+            await blobClient.DownloadToAsync(stream);
+            stream.Position = 0;
+
+            using var streamReader = new StreamReader(stream);
+            var response = await streamReader.ReadToEndAsync();
+
+            return response;
+        }
 
         public async Task LogRequest(Root response, string id)
         {
@@ -73,21 +88,6 @@ namespace AzureLogging.Services
                 .Where(i => i.Timestamp >= from && i.Timestamp <= to);
 
             return items;
-        }
-        
-        public async Task<string> GetBlob(string id)
-        {
-            var fileName = $"{_config.FilePrefix}{id}.json";
-            var blobClient = _blobContainerClient.GetBlobClient(fileName);
-
-            using var stream = new MemoryStream();
-            await blobClient.DownloadToAsync(stream);
-            stream.Position = 0;
-
-            using var streamReader = new StreamReader(stream);
-            var response = await streamReader.ReadToEndAsync();
-
-            return response;
         }
     }
 }
